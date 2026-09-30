@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="main.js" defer></script>
+    <script type="module" src="https://unpkg.com/cally"></script>
+  </head>
+  <body>
+    <main class="flex flex-col gap-10">
+      <section class="stat-section text-center">...</section>
+
+      <div class="text-center">
+        <button class="btn btn-secondary" onclick="new_task.showModal()">
+          + Neues Event
+        </button>
+      </div>
+
+      <section
+        id="tasks-container"
+        class="tasks-container flex flex-col gap-4 items-center"
+      ></section>
+
+      <section class="modal-section">
+        <dialog id="new_task" class="modal">
+          <div class="modal-box">
+            <form method="dialog">
+              <button
+                class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              >
+                ✕
+              </button>
+            </form>
+
+            <h3 class="text-lg font-bold">Neues Element</h3>
+
+            <form id="new-task-form">
+              <!-- Title -->
+              <fieldset class="fieldset">
+                <label class="label" for="title"> Title </label>
+
+                <input
+                  type="text"
+                  id="title"
+                  class="input"
+                  placeholder="Title"
+                  name="title"
+                />
+              </fieldset>
+
+              <fieldset class="fieldset">
+                <label class="label" for="description"> Beschreibung </label>
+
+                <input
+                  type="text"
+                  id="description"
+                  class="input"
+                  placeholder="Beschreibung"
+                  name="description"
+                />
+              </fieldset>
+
+              <fieldset class="fieldset">
+                <label class="label" for="description">Datum *</label>
+
+                <input type="date" class="input" />
+                <calendar-date
+                  id="calendar"
+                  hidden
+                  class="cally bg-base-100 border border-base-300 shadow-lg rounded-box"
+                >
+                  <svg
+                    aria-label="Previous"
+                    class="fill-current size-4"
+                    slot="previous"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M15.75 19.5 8.25 12l7.5-7.5"
+                    ></path>
+                  </svg>
+                  <svg
+                    aria-label="Next"
+                    class="fill-current size-4"
+                    slot="next"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                    ></path>
+                  </svg>
+                  <calendar-month></calendar-month>
+                </calendar-date>
+              </fieldset>
+
+              <fieldset class="fieldset">
+                <input type="time" class="input" />
+                <legend class="fieldset-legend">Uhrzeit *</legend>
+              </fieldset>
+
+              <fieldset class="fieldset">
+                <legend class="fieldset-legend">Ort *</legend>
+                <input type="text" class="input" placeholder="z. B. Hamburg" />
+              </fieldset>
+
+              <div class="mt-6">
+                <button type="submit" class="btn btn-primary">Erstellen</button>
+              </div>
+            </form>
+          </div>
+        </dialog>
+      </section>
+    </main>
+  </body>
+</html>
