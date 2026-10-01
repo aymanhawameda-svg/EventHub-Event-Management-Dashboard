@@ -3,23 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>EventHub - Event Management Dashboard</title>
 
-    <!-- Tailwind CSS & daisyUI CDN -->
     <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
       rel="stylesheet"
       type="text/css"
     />
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <script src="main.js" defer></script>
+
+    <script
+      type="module"
+      src="https://unpkg.com/cally"
+    ></script>
+
+    <link rel="stylesheet" href="style.css" />
   </head>
+
   <body class="bg-base-200 min-h-screen text-base-content">
     <div class="max-w-7xl mx-auto p-4 md:p-6 space-y-6">
-      <!-- ---header--- -->
+
+      <!-- HEADER -->
       <header class="navbar bg-base-100 rounded-box shadow-md px-4">
         <div class="flex-1">
-          <a class="btn btn-ghost text-xl font-bold text-primary">EventHub</a>
+          <a class="btn btn-ghost text-xl font-bold text-primary">
+            EventHub
+          </a>
         </div>
+
         <div class="flex-none gap-2">
           <div class="dropdown dropdown-end">
             <div
@@ -37,7 +52,8 @@
           </div>
         </div>
       </header>
-      <!-- ---------- -->
+
+      <!-- STATS -->
       <section
         class="stats shadow w-full bg-base-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2"
       >
@@ -57,6 +73,7 @@
               ></path>
             </svg>
           </div>
+
           <div class="stat-title">Events</div>
           <div class="stat-value text-primary" id="stat-total">12</div>
         </div>
@@ -77,6 +94,7 @@
               ></path>
             </svg>
           </div>
+
           <div class="stat-title">Offene Events</div>
           <div class="stat-value text-success" id="stat-open">6</div>
         </div>
@@ -97,8 +115,11 @@
               ></path>
             </svg>
           </div>
+
           <div class="stat-title">Teilnehmer</div>
-          <div class="stat-value text-info" id="stat-participants">143</div>
+          <div class="stat-value text-info" id="stat-participants">
+            143
+          </div>
         </div>
 
         <div class="stat">
@@ -117,14 +138,18 @@
               ></path>
             </svg>
           </div>
+
           <div class="stat-title">Ausgebuchte Events</div>
           <div class="stat-value text-error" id="stat-full">3</div>
         </div>
       </section>
+
+      <!-- FILTER -->
       <section
         class="bg-base-100 p-4 rounded-box shadow-md flex flex-wrap gap-3 items-center justify-between"
       >
         <div class="flex flex-wrap gap-3 items-center flex-1">
+
           <!-- Search -->
           <input
             type="text"
@@ -133,8 +158,11 @@
             class="input input-bordered w-full sm:w-auto flex-1 max-w-xs"
           />
 
-          <!--  Filter -->
-          <select id="categoryFilter" class="select select-bordered">
+          <!-- Category Filter -->
+          <select
+            id="categoryFilter"
+            class="select select-bordered"
+          >
             <option value="Alle">Kategorie: Alle</option>
             <option value="Workshop">Workshop</option>
             <option value="Meetup">Meetup</option>
@@ -144,15 +172,22 @@
           </select>
 
           <!-- Status Filter -->
-          <select id="statusFilter" class="select select-bordered">
+          <select
+            id="statusFilter"
+            class="select select-bordered"
+          >
             <option value="Alle">Status: Alle</option>
             <option value="Offen">Offen</option>
             <option value="Geplant">Geplant</option>
             <option value="Ausgebucht">Ausgebucht</option>
             <option value="Abgeschlossen">Abgeschlossen</option>
           </select>
+
           <!-- Sort -->
-          <select id="sortFilter" class="select select-bordered">
+          <select
+            id="sortFilter"
+            class="select select-bordered"
+          >
             <option value="date-asc">Datum aufsteigend</option>
             <option value="date-desc">Datum absteigend</option>
             <option value="title-asc">Titel A–Z</option>
@@ -161,23 +196,33 @@
 
         <!-- Add Button -->
         <button
-          onclick="create_event_modal.showModal()"
+          onclick="document.querySelector('#new_task').showModal()"
           class="btn btn-primary"
         >
           + Neues Event
         </button>
       </section>
+
+      <!-- EVENTS -->
       <main
         id="eventsContainer"
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
-        <!--  Card 1 -->
+
+        <!-- Card 1 -->
         <div class="card bg-base-100 shadow-xl border border-base-200">
           <div class="card-body">
+
             <div class="flex justify-between items-start">
-              <h2 class="card-title text-lg font-bold">JavaScript Workshop</h2>
-              <span class="badge badge-primary">Workshop</span>
+              <h2 class="card-title text-lg font-bold">
+                JavaScript Workshop
+              </h2>
+
+              <span class="badge badge-primary">
+                Workshop
+              </span>
             </div>
+
             <p class="text-sm text-gray-500">
               Grundlagen von JavaScript für Anfänger.
             </p>
@@ -189,11 +234,15 @@
 
             <div class="mt-2">
               <div class="flex justify-between items-center text-xs mb-1">
-                <span class="badge badge-success badge-sm">Offen</span>
-                <span class="font-semibold text-gray-600"
-                  >2 / 3 Teilnehmer</span
-                >
+                <span class="badge badge-success badge-sm">
+                  Offen
+                </span>
+
+                <span class="font-semibold text-gray-600">
+                  2 / 3 Teilnehmer
+                </span>
               </div>
+
               <progress
                 class="progress progress-primary w-full"
                 value="2"
@@ -208,13 +257,16 @@
                 <button class="btn btn-xs join-item">-</button>
                 <button class="btn btn-xs join-item">+</button>
               </div>
+
               <div class="flex gap-2">
                 <button
                   class="btn btn-square btn-ghost btn-xs text-info"
                   title="Bearbeiten"
+                  onclick="änderungstask_task.showModal()"
                 >
                   ✏️
                 </button>
+
                 <button
                   class="btn btn-square btn-ghost btn-xs text-error"
                   title="Löschen"
@@ -225,15 +277,21 @@
             </div>
           </div>
         </div>
-        <!--  Card 2 -->
+
+        <!-- Card 2 -->
         <div class="card bg-base-100 shadow-xl border border-base-200">
           <div class="card-body">
+
             <div class="flex justify-between items-start">
               <h2 class="card-title text-lg font-bold">
                 Web Development Meetup
               </h2>
-              <span class="badge badge-accent">Meetup</span>
+
+              <span class="badge badge-accent">
+                Meetup
+              </span>
             </div>
+
             <p class="text-sm text-gray-500">
               Austausch und Networking für Webentwickler.
             </p>
@@ -245,11 +303,15 @@
 
             <div class="mt-2">
               <div class="flex justify-between items-center text-xs mb-1">
-                <span class="badge badge-info badge-sm">Geplant</span>
-                <span class="font-semibold text-gray-600"
-                  >10 / 20 Teilnehmer</span
-                >
+                <span class="badge badge-info badge-sm">
+                  Geplant
+                </span>
+
+                <span class="font-semibold text-gray-600">
+                  10 / 20 Teilnehmer
+                </span>
               </div>
+
               <progress
                 class="progress progress-primary w-full"
                 value="10"
@@ -264,13 +326,16 @@
                 <button class="btn btn-xs join-item">-</button>
                 <button class="btn btn-xs join-item">+</button>
               </div>
+
               <div class="flex gap-2">
                 <button
                   class="btn btn-square btn-ghost btn-xs text-info"
                   title="Bearbeiten"
+                  onclick="änderungstask_task.showModal()"
                 >
                   ✏️
                 </button>
+
                 <button
                   class="btn btn-square btn-ghost btn-xs text-error"
                   title="Löschen"
@@ -281,15 +346,21 @@
             </div>
           </div>
         </div>
-        <!--  Card 3 -->
+
+        <!-- Card 3 -->
         <div class="card bg-base-100 shadow-xl border border-base-200">
           <div class="card-body">
+
             <div class="flex justify-between items-start">
               <h2 class="card-title text-lg font-bold">
                 IT-sicherheit Schulung
               </h2>
-              <span class="badge badge-warning">Schulung</span>
+
+              <span class="badge badge-warning">
+                Schulung
+              </span>
             </div>
+
             <p class="text-sm text-gray-500">
               Schulung zu IT-Sicherheitsthemen.
             </p>
@@ -301,11 +372,17 @@
 
             <div class="mt-2">
               <div class="flex justify-between items-center text-xs mb-1">
-                <span class="badge badge-error badge-sm"> Ausgebucht</span>
-                <span class="font-semibold text-gray-600"
-                  >40 / 40 Teilnehmer</span
-                >
+
+                <span class="badge badge-error badge-sm">
+                  Ausgebucht
+                </span>
+
+                <span class="font-semibold text-gray-600">
+                  40 / 40 Teilnehmer
+                </span>
+
               </div>
+
               <progress
                 class="progress progress-primary w-full"
                 value="40"
@@ -320,13 +397,16 @@
                 <button class="btn btn-xs join-item">-</button>
                 <button class="btn btn-xs join-item">+</button>
               </div>
+
               <div class="flex gap-2">
                 <button
                   class="btn btn-square btn-ghost btn-xs text-info"
                   title="Bearbeiten"
+                  onclick="änderungstask_task.showModal()"
                 >
                   ✏️
                 </button>
+
                 <button
                   class="btn btn-square btn-ghost btn-xs text-error"
                   title="Löschen"
@@ -335,15 +415,24 @@
                 </button>
               </div>
             </div>
+
           </div>
         </div>
-        <!--  Card 4 -->
+
+        <!-- Card 4 -->
         <div class="card bg-base-100 shadow-xl border border-base-200">
           <div class="card-body">
+
             <div class="flex justify-between items-start">
-              <h2 class="card-title text-lg font-bold">Business Networking</h2>
-              <span class="badge badge-secondary">Networking</span>
+              <h2 class="card-title text-lg font-bold">
+                Business Networking
+              </h2>
+
+              <span class="badge badge-secondary">
+                Networking
+              </span>
             </div>
+
             <p class="text-sm text-gray-500">
               Kontakte knüpfen und Geschäftsmöglichkeiten .
             </p>
@@ -355,11 +444,17 @@
 
             <div class="mt-2">
               <div class="flex justify-between items-center text-xs mb-1">
-                <span class="badge badge-success badge-sm">Offen</span>
-                <span class="font-semibold text-gray-600"
-                  >30/ 50 Teilnehmer</span
-                >
+
+                <span class="badge badge-success badge-sm">
+                  Offen
+                </span>
+
+                <span class="font-semibold text-gray-600">
+                  30/ 50 Teilnehmer
+                </span>
+
               </div>
+
               <progress
                 class="progress progress-primary w-full"
                 value="30"
@@ -374,13 +469,16 @@
                 <button class="btn btn-xs join-item">-</button>
                 <button class="btn btn-xs join-item">+</button>
               </div>
+
               <div class="flex gap-2">
                 <button
                   class="btn btn-square btn-ghost btn-xs text-info"
                   title="Bearbeiten"
+                  onclick="änderungstask_task.showModal()"
                 >
                   ✏️
                 </button>
+
                 <button
                   class="btn btn-square btn-ghost btn-xs text-error"
                   title="Löschen"
@@ -389,17 +487,24 @@
                 </button>
               </div>
             </div>
+
           </div>
         </div>
-        <!--  Card 5 -->
+
+        <!-- Card 5 -->
         <div class="card bg-base-100 shadow-xl border border-base-200">
           <div class="card-body">
+
             <div class="flex justify-between items-start">
               <h2 class="card-title text-lg font-bold">
                 Web accessibility Meetup
               </h2>
-              <span class="badge badge-accent">Meetup</span>
+
+              <span class="badge badge-accent">
+                Meetup
+              </span>
             </div>
+
             <p class="text-sm text-gray-500">
               Ensicherung der Zugänglichkeit von Webinhalten für alle Nutzer.
             </p>
@@ -411,11 +516,17 @@
 
             <div class="mt-2">
               <div class="flex justify-between items-center text-xs mb-1">
-                <span class="badge badge-success badge-sm">Offen</span>
-                <span class="font-semibold text-gray-600"
-                  >15 / 26 Teilnehmer</span
-                >
+
+                <span class="badge badge-success badge-sm">
+                  Offen
+                </span>
+
+                <span class="font-semibold text-gray-600">
+                  15 / 26 Teilnehmer
+                </span>
+
               </div>
+
               <progress
                 class="progress progress-primary w-full"
                 value="15"
@@ -430,13 +541,16 @@
                 <button class="btn btn-xs join-item">-</button>
                 <button class="btn btn-xs join-item">+</button>
               </div>
+
               <div class="flex gap-2">
                 <button
                   class="btn btn-square btn-ghost btn-xs text-info"
                   title="Bearbeiten"
+                  onclick="änderungstask_task.showModal()"
                 >
                   ✏️
                 </button>
+
                 <button
                   class="btn btn-square btn-ghost btn-xs text-error"
                   title="Löschen"
@@ -445,17 +559,24 @@
                 </button>
               </div>
             </div>
+
           </div>
         </div>
-        <!--  Card 6 -->
+
+        <!-- Card 6 -->
         <div class="card bg-base-100 shadow-xl border border-base-200">
           <div class="card-body">
+
             <div class="flex justify-between items-start">
               <h2 class="card-title text-lg font-bold">
                 Python Coding Workshop
               </h2>
-              <span class="badge badge-primary">Workshop</span>
+
+              <span class="badge badge-primary">
+                Workshop
+              </span>
             </div>
+
             <p class="text-sm text-gray-500">
               Einstieg in die Programmierung mit Python.
             </p>
@@ -467,11 +588,17 @@
 
             <div class="mt-2">
               <div class="flex justify-between items-center text-xs mb-1">
-                <span class="badge badge-info badge-sm">Geplant</span>
-                <span class="font-semibold text-gray-600"
-                  >15 / 25 Teilnehmer</span
-                >
+
+                <span class="badge badge-info badge-sm">
+                  Geplant
+                </span>
+
+                <span class="font-semibold text-gray-600">
+                  15 / 25 Teilnehmer
+                </span>
+
               </div>
+
               <progress
                 class="progress progress-primary w-full"
                 value="15"
@@ -486,13 +613,16 @@
                 <button class="btn btn-xs join-item">-</button>
                 <button class="btn btn-xs join-item">+</button>
               </div>
+
               <div class="flex gap-2">
                 <button
                   class="btn btn-square btn-ghost btn-xs text-info"
                   title="Bearbeiten"
+                  onclick="änderungstask_task.showModal()"
                 >
                   ✏️
                 </button>
+
                 <button
                   class="btn btn-square btn-ghost btn-xs text-error"
                   title="Löschen"
@@ -501,9 +631,419 @@
                 </button>
               </div>
             </div>
+
           </div>
         </div>
+
       </main>
     </div>
+
+
+   
+
+    <section class="modal-section">
+      <dialog id="new_task" class="modal">
+        <div class="modal-box">
+
+          <form method="dialog">
+            <button
+              class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            >
+              ✕
+            </button>
+          </form>
+
+          <h3 class="text-lg font-bold">
+            Neues Element
+          </h3>
+
+          <form id="new-task-form">
+
+            <!-- Title -->
+            <fieldset class="fieldset">
+              <label
+                class="label"
+                for="title"
+              >
+                Title
+              </label>
+
+              <input
+                type="text"
+                id="title"
+                class="input"
+                placeholder="Title"
+                name="title"
+              />
+            </fieldset>
+
+
+        
+            <fieldset class="fieldset">
+              <label
+                class="label"
+                for="description"
+              >
+                Beschreibung
+              </label>
+
+              <input
+                type="text"
+                id="description"
+                class="input"
+                placeholder="Beschreibung"
+                name="description"
+              />
+            </fieldset>
+
+
+        
+            <fieldset class="fieldset">
+              <label
+                class="label"
+                for="description"
+              >
+                Datum *
+              </label>
+
+              <input
+                type="date"
+                class="input"
+              />
+
+              <calendar-date
+                id="calendar"
+                hidden
+                class="cally bg-base-100 border border-base-300 shadow-lg rounded-box"
+              >
+
+                <svg
+                  aria-label="Previous"
+                  class="fill-current size-4"
+                  slot="previous"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M15.75 19.5 8.25 12l7.5-7.5"
+                  ></path>
+                </svg>
+
+                <svg
+                  aria-label="Next"
+                  class="fill-current size-4"
+                  slot="next"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                  ></path>
+                </svg>
+
+                <calendar-month></calendar-month>
+
+              </calendar-date>
+            </fieldset>
+
+
+            <fieldset class="fieldset">
+
+              <input
+                type="time"
+                class="input"
+              />
+
+              <legend class="fieldset-legend">
+                Uhrzeit *
+              </legend>
+
+            </fieldset>
+
+
+           
+            <fieldset class="fieldset">
+
+              <legend class="fieldset-legend">
+                Ort *
+              </legend>
+
+              <input
+                type="text"
+                class="input"
+                placeholder="z. B. Hamburg"
+              />
+
+            </fieldset>
+
+
+        
+            <fieldset class="fieldset">
+
+              <legend class="fieldset-legend">
+                Kathegorie *
+              </legend>
+
+              <input
+                type="text"
+                class="input"
+                placeholder="z. B. Hamburg"
+              />
+
+            </fieldset>
+
+
+            <!-- Teilnehmer -->
+            <fieldset class="fieldset">
+
+              <legend class="fieldset-legend">
+                Teilnehmer *
+              </legend>
+
+              <div class="join">
+
+                <input
+                  class="input join-item"
+                  placeholder="1"
+                />
+
+                <button
+                  class="btn join-item"
+                >
+                  +
+                </button>
+
+                <button
+                  class="btn join-item"
+                >
+                  -
+                </button>
+
+              </div>
+
+            </fieldset>
+
+
+            <!-- Erstellen -->
+            <div class="mt-6">
+
+              <button
+                type="submit"
+                class="btn btn-primary"
+              >
+                Erstellen
+              </button>
+
+            </div>
+
+          </form>
+        </div>
+      </dialog>
+    </section>
+
+
+    
+
+    <section class="modal-section">
+      <dialog id="änderungstask_task" class="modal">
+        <div class="modal-box">
+
+          <form method="dialog">
+            <button
+              class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            >
+              ✕
+            </button>
+          </form>
+
+          <h3 class="text-lg font-bold">
+            Event bearbeiten
+          </h3>
+
+          <form id="edit-task-form">
+
+            <fieldset class="fieldset">
+              <label
+                class="label"
+                for="edit-title"
+              >
+                Title
+              </label>
+
+              <input
+                type="text"
+                id="edit-title"
+                class="input"
+                placeholder="Title"
+                name="title"
+              />
+            </fieldset>
+
+
+            <fieldset class="fieldset">
+              <label
+                class="label"
+                for="edit-description"
+              >
+                Beschreibung
+              </label>
+
+              <input
+                type="text"
+                id="edit-description"
+                class="input"
+                placeholder="Beschreibung"
+                name="description"
+              />
+            </fieldset>
+
+
+            <fieldset class="fieldset">
+              <label
+                class="label"
+                for="edit-date"
+              >
+                Datum *
+              </label>
+
+              <input
+                type="date"
+                id="edit-date"
+                class="input"
+              />
+
+              <calendar-date
+                id="edit-calendar"
+                hidden
+                class="cally bg-base-100 border border-base-300 shadow-lg rounded-box"
+              >
+
+                <svg
+                  aria-label="Previous"
+                  class="fill-current size-4"
+                  slot="previous"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M15.75 19.5 8.25 12l7.5-7.5"
+                  ></path>
+                </svg>
+
+                <svg
+                  aria-label="Next"
+                  class="fill-current size-4"
+                  slot="next"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                  ></path>
+                </svg>
+
+                <calendar-month></calendar-month>
+
+              </calendar-date>
+            </fieldset>
+
+
+            <fieldset class="fieldset">
+
+              <input
+                type="time"
+                id="edit-time"
+                class="input"
+              />
+
+              <legend class="fieldset-legend">
+                Uhrzeit *
+              </legend>
+
+            </fieldset>
+
+
+            <fieldset class="fieldset">
+
+              <legend class="fieldset-legend">
+                Ort *
+              </legend>
+
+              <input
+                type="text"
+                id="edit-location"
+                class="input"
+                placeholder="z. B. Hamburg"
+              />
+
+            </fieldset>
+
+
+            <fieldset class="fieldset">
+
+              <legend class="fieldset-legend">
+                Kathegorie *
+              </legend>
+
+              <input
+                type="text"
+                id="edit-category"
+                class="input"
+                placeholder="z. B. Hamburg"
+              />
+
+            </fieldset>
+
+
+            <fieldset class="fieldset">
+
+              <legend class="fieldset-legend">
+                Teilnehmer *
+              </legend>
+
+              <div class="join">
+
+                <input
+                  class="input join-item"
+                  placeholder="1"
+                />
+
+                <button
+                  class="btn join-item"
+                >
+                  +
+                </button>
+
+                <button
+                  class="btn join-item"
+                >
+                  -
+                </button>
+
+              </div>
+
+            </fieldset>
+
+
+            <div class="mt-6">
+
+              <button
+                type="submit"
+                class="btn btn-primary"
+              >
+                Änderungen speichern
+              </button>
+
+            </div>
+
+          </form>
+        </div>
+      </dialog>
+    </section>
+
   </body>
 </html>
