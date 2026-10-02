@@ -277,3 +277,35 @@ updateDashboardStats();
 function saveEventsToLocalStorage() {
   localStorage.setItem("eventhub_events", JSON.stringify(events));
 }
+
+// //Ayman
+// Filtert und sortiert die Events nach Suche, Kategorie und Status.
+function filterAndSortEvents() {
+  // TODO: Array filtern/sortieren und renderEvents() aufrufen.
+}
+
+// //Kawa
+// Aktiviert die Event-Listener für Suchfeld und Filter-Dropdowns.
+function setupSearchAndFilterListeners() {
+  // TODO: Listener für `input` und `change` hinzufügen.
+}
+
+// //Ayman
+// Erstellt ein neues Event aus den Formular-Eingaben im Modal.
+function handleCreateEvent(e) {
+  // TODO: Formulardaten auslesen, neues Event erstellen & speichern.
+}
+
+// //Kawa
+// Ändert die Teilnehmerzahl eines Events um +1 oder -1.
+function changeParticipantCount(eventId, amount) {
+  // TODO: Teilnehmerzahl anpassen, speichern & neu rendern.
+}
+
+// //Kawa
+// Löscht ein Event anhand seiner ID aus dem Array.
+function deleteEvent(eventId) {
+  // TODO: Event entfernen, speichern & neu rendern.
+}
+
+document.addEventListener("DOMContentLoaded", () => {});
