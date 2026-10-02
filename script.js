@@ -221,8 +221,9 @@ function generate_event_card(eventItem) {
   btn_edit.innerText = "✏️";
 
   action_buttons.appendChild(btn_edit);
+  // Verknüpfen Sie die Schaltfläche „Bearbeiten“.
   btn_edit.addEventListener("click", () => {
-    bearbeitungsmodal.showModal();
+    openEditModal(eventItem);
   });
 
   const btn_delete = document.createElement("button");
@@ -235,6 +236,21 @@ function generate_event_card(eventItem) {
   );
   btn_delete.innerText = "🗑️";
   action_buttons.appendChild(btn_delete);
+
+  // Verbinden Sie die Schaltfläche „-“.
+  btn_minus.addEventListener("click", () => {
+    changeParticipantCount(id, -1);
+  });
+
+  // Verbinden Sie die Schaltfläche „+“.
+  btn_plus.addEventListener("click", () => {
+    changeParticipantCount(id, 1);
+  });
+
+  // Verbinden Sie die Schaltfläche „Löschen“.
+  btn_delete.addEventListener("click", () => {
+    deleteEvent(id);
+  });
   return card;
 }
 
@@ -282,30 +298,221 @@ function saveEventsToLocalStorage() {
 // Filtert und sortiert die Events nach Suche, Kategorie und Status.
 function filterAndSortEvents() {
   // TODO: Array filtern/sortieren und renderEvents() aufrufen.
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  const selectedCategory = categoryFilter.value;
+  const selectedStatus = statusFilter.value;
+  const selectedSort = sortFilter.value;
+
+  let filteredEvents = events.filter((event) => {
+    // Search filter (Title or Location or Description)
+    const matchesSearch =
+      event.title.toLowerCase().includes(searchTerm) ||
+      event.description.toLowerCase().includes(searchTerm) ||
+      event.location.toLowerCase().includes(searchTerm);
+
+    // Category filter
+    const matchesCategory =
+      selectedCategory === "Alle" || event.category === selectedCategory;
+
+    // Status filter
+    const matchesStatus =
+      selectedStatus === "Alle" || event.status === selectedStatus;
+
+    return matchesSearch && matchesCategory && matchesStatus;
+  });
+
+  // Sorting
+  filteredEvents.sort((a, b) => {
+    if (selectedSort === "date-asc") {
+      return new Date(a.date) - new Date(b.date);
+    } else if (selectedSort === "date-desc") {
+      return new Date(b.date) - new Date(a.date);
+    } else if (selectedSort === "title-asc") {
+      return a.title.localeCompare(b.title);
+    }
+    return 0;
+  });
+
+  renderEvents(filteredEvents);
 }
 
 // //Kawa
 // Aktiviert die Event-Listener für Suchfeld und Filter-Dropdowns.
 function setupSearchAndFilterListeners() {
   // TODO: Listener für `input` und `change` hinzufügen.
+  searchInput.addEventListener("input", filterAndSortEvents);
+  categoryFilter.addEventListener("change", filterAndSortEvents);
+  statusFilter.addEventListener("change", filterAndSortEvents);
+  sortFilter.addEventListener("change", filterAndSortEvents);
 }
 
 // //Ayman
 // Erstellt ein neues Event aus den Formular-Eingaben im Modal.
 function handleCreateEvent(e) {
   // TODO: Formulardaten auslesen, neues Event erstellen & speichern.
-}
 
+  e.preventDefault();
+
+  const form = e.target;
+  const title = form.querySelector("#title").value.trim();
+  const description = form.querySelector("#description").value.trim();
+  const dateInput = form.querySelector("input[type='date']").value;
+  const time = form.querySelector("#time").value;
+
+  // Eingaben nach Reihenfolge in HTML abrufen
+  const textInputs = form.querySelectorAll("input[type='text']");
+  const location = textInputs[2] ? textInputs[2].value.trim() : "";
+  const category = textInputs[3] ? textInputs[3].value.trim() : "Workshop";
+
+  const participantsInput = form.querySelector(".join input");
+  const maxParticipants = participantsInput
+    ? parseInt(participantsInput.value) || 10
+    : 10;
+
+  if (!title || !dateInput || !time) {
+    alert("Bitte füllen Sie alle Pflichtfelder aus!");
+    return;
+  }
+
+  const newEventObj = {
+    id: Date.now(),
+    title: title,
+    description: description,
+    date: dateInput,
+    time: time,
+    location: location || "Unbekannt",
+    category: category || "General",
+    status: "Offen",
+    currentParticipants: 0,
+    maxParticipants: maxParticipants,
+  };
+
+  events.push(newEventObj);
+  saveEventsToLocalStorage();
+  filterAndSortEvents(); // oder renderEvents(events)
+  updateDashboardStats();
+
+  form.reset();
+  document.querySelector("#new_task").close();
+}
 // //Kawa
 // Ändert die Teilnehmerzahl eines Events um +1 oder -1.
 function changeParticipantCount(eventId, amount) {
   // TODO: Teilnehmerzahl anpassen, speichern & neu rendern.
+  const event = events.find((e) => e.id === eventId);
+  if (!event) return;
+
+  const newCount = event.currentParticipants + amount;
+
+  if (newCount >= 0 && newCount <= event.maxParticipants) {
+    event.currentParticipants = newCount;
+
+    // Aktualisiere den Status automatisch, wenn der Zähler voll ist
+    if (event.currentParticipants === event.maxParticipants) {
+      event.status = "Ausgebucht";
+    } else if (
+      event.status === "Ausgebucht" &&
+      event.currentParticipants < event.maxParticipants
+    ) {
+      event.status = "Offen";
+    }
+
+    saveEventsToLocalStorage();
+    filterAndSortEvents();
+    updateDashboardStats();
+  }
 }
 
 // //Kawa
 // Löscht ein Event anhand seiner ID aus dem Array.
 function deleteEvent(eventId) {
   // TODO: Event entfernen, speichern & neu rendern.
+  if (confirm("Möchten Sie dieses Event wirklich löschen?")) {
+    events = events.filter((e) => e.id !== eventId);
+    saveEventsToLocalStorage();
+    filterAndSortEvents();
+    updateDashboardStats();
+  }
+}
+// 1. D Funktion zum Öffnen des Bearbeitungsmodals und Füllen der Felder mit den Daten des aktuellen Events
+function openEditModal(event) {
+  const modal = document.querySelector("#änderungstask_task");
+
+  document.querySelector("#edit-id").value = event.id;
+  document.querySelector("#edit-title").value = event.title;
+  document.querySelector("#edit-description").value = event.description || "";
+  document.querySelector("#edit-date").value = event.date;
+  document.querySelector("#edit-time").value = event.time;
+  document.querySelector("#edit-location").value = event.location;
+  document.querySelector("#edit-category").value = event.category;
+  document.querySelector("#edit-maxParticipants").value = event.maxParticipants;
+
+  modal.showModal();
 }
 
-document.addEventListener("DOMContentLoaded", () => {});
+// 2. D Funktion zum Speichern der Änderungen beim Einreichen des Bearbeitungsformulars (Submit)
+function handleEditEvent(e) {
+  e.preventDefault();
+
+  const id = parseInt(document.querySelector("#edit-id").value);
+  const event = events.find((item) => item.id === id);
+
+  if (!event) return;
+
+  // Jeden Sie die neue Wert für die maximale Anzahl an Teilnehmern
+  const newMaxParticipants = parseInt(
+    document.querySelector("#edit-maxParticipants").value,
+  );
+
+  // Nachweispflicht: Es ist nicht gestattet, die maximale Anzahl an Reservierungen unter das derzeitige Limit zu senken.
+  if (newMaxParticipants < event.currentParticipants) {
+    alert(
+      `Fehler: Die maximale Teilnehmerzahl (${newMaxParticipants}) kann nicht kleiner sein als die bereits gebuchten Plätze (${event.currentParticipants}).`,
+    );
+    return; // Verhindern Sie die Ausführung der Funktion und speichern Sie die Änderungen nicht.
+  }
+
+  // aktualisieren Sie die übrigen Felder
+  event.title = document.querySelector("#edit-title").value.trim();
+  event.description = document.querySelector("#edit-description").value.trim();
+  event.date = document.querySelector("#edit-date").value;
+  event.time = document.querySelector("#edit-time").value;
+  event.location = document.querySelector("#edit-location").value.trim();
+  event.category = document.querySelector("#edit-category").value.trim();
+
+  // aktualisieren Sie die Benutzeroberfläche
+  event.maxParticipants = newMaxParticipants;
+
+  // Finden der passenden Event-Status nach Änderung des maximalen Teilnehmerzahls
+  if (event.currentParticipants >= event.maxParticipants) {
+    event.status = "Ausgebucht";
+  } else if (
+    event.status === "Ausgebucht" &&
+    event.currentParticipants < event.maxParticipants
+  ) {
+    event.status = "Offen";
+  }
+
+  // Speichern und aktualisieren Sie die Benutzeroberfläche
+  saveEventsToLocalStorage();
+  filterAndSortEvents();
+  updateDashboardStats();
+
+  // Modul schließen
+  document.querySelector("#änderungstask_task").close();
+}
+
+// 3. Ereignisverknüpfung zum Modifikationsmodell
+const editEventForm = document.querySelector("#edit-task-form");
+if (editEventForm) {
+  editEventForm.addEventListener("submit", handleEditEvent);
+}
+const newEventForm = document.querySelector("#new-task-form");
+if (newEventForm) {
+  newEventForm.addEventListener("submit", handleCreateEvent);
+}
+document.addEventListener("DOMContentLoaded", () => {
+  setupSearchAndFilterListeners();
+  filterAndSortEvents();
+  updateDashboardStats();
+});

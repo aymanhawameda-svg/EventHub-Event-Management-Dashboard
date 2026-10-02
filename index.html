@@ -320,19 +320,20 @@
 
 
         
-            <fieldset class="fieldset">
+    <fieldset class="fieldset">
+        <legend class="fieldset-legend">
+            Kathegorie *
+        </legend>
 
-              <legend class="fieldset-legend">
-                Kathegorie *
-              </legend>
+        <select class="select">
+            <option selected disabled>Kathegorie auswählen</option>
+            <option>Workshop</option>
+            <option>Meetup</option>
+            <option>Schulung</option>
+            <option>Networking</option>
+        </select>
 
-              <input
-                type="text"
-                class="input"
-                placeholder="z. B. Hamburg"
-              />
-
-            </fieldset>
+    </fieldset>
 
 
             <!-- Teilnehmer -->
@@ -384,203 +385,68 @@
     </section>
 
     <section class="modal-section">
-      <dialog id="änderungstask_task" class="modal">
-        <div class="modal-box">
+  <dialog id="änderungstask_task" class="modal">
+    <div class="modal-box">
+      <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      </form>
 
-          <form method="dialog">
-            <button
-              class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            >
-              ✕
-            </button>
-          </form>
+      <h3 class="text-lg font-bold mb-4">Event bearbeiten</h3>
 
-          <h3 class="text-lg font-bold">
-            Event bearbeiten
-          </h3>
+      <form id="edit-task-form">
+        <!-- -->
+        <input type="hidden" id="edit-id" />
 
-          <form id="edit-task-form">
+        <!-- Title -->
+        <fieldset class="fieldset">
+          <label class="label" for="edit-title">Title</label>
+          <input type="text" id="edit-title" class="input w-full" placeholder="Title" required />
+        </fieldset>
 
-            <fieldset class="fieldset">
-              <label
-                class="label"
-                for="edit-title"
-              >
-                Title
-              </label>
+        <!-- Description -->
+        <fieldset class="fieldset">
+          <label class="label" for="edit-description">Beschreibung</label>
+          <input type="text" id="edit-description" class="input w-full" placeholder="Beschreibung" />
+        </fieldset>
 
-              <input
-                type="text"
-                id="edit-title"
-                class="input"
-                placeholder="Title"
-                name="title"
-              />
-            </fieldset>
+        <!-- Date -->
+        <fieldset class="fieldset">
+          <label class="label" for="edit-date">Datum *</label>
+          <input type="date" id="edit-date" class="input w-full" required />
+        </fieldset>
 
+        <!-- Time -->
+        <fieldset class="fieldset">
+          <label class="label" for="edit-time">Uhrzeit *</label>
+          <input type="time" id="edit-time" class="input w-full" required />
+        </fieldset>
 
-            <fieldset class="fieldset">
-              <label
-                class="label"
-                for="edit-description"
-              >
-                Beschreibung
-              </label>
+        <!-- Location -->
+        <fieldset class="fieldset">
+          <label class="label" for="edit-location">Ort *</label>
+          <input type="text" id="edit-location" class="input w-full" placeholder="z. B. Hamburg" required />
+        </fieldset>
 
-              <input
-                type="text"
-                id="edit-description"
-                class="input"
-                placeholder="Beschreibung"
-                name="description"
-              />
-            </fieldset>
+        <!-- Category -->
+        <fieldset class="fieldset">
+          <label class="label" for="edit-category">Kategorie *</label>
+          <input type="text" id="edit-category" class="input w-full" placeholder="z. B. Workshop" required />
+        </fieldset>
 
+        <!-- Max Participants -->
+        <fieldset class="fieldset">
+          <label class="label" for="edit-maxParticipants">Max. Teilnehmer *</label>
+          <input type="number" id="edit-maxParticipants" class="input w-full" min="1" required />
+        </fieldset>
 
-            <fieldset class="fieldset">
-              <label
-                class="label"
-                for="edit-date"
-              >
-                Datum *
-              </label>
-
-              <input
-                type="date"
-                id="edit-date"
-                class="input"
-              />
-
-              <calendar-date
-                id="edit-calendar"
-                hidden
-                class="cally bg-base-100 border border-base-300 shadow-lg rounded-box"
-              >
-
-                <svg
-                  aria-label="Previous"
-                  class="fill-current size-4"
-                  slot="previous"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M15.75 19.5 8.25 12l7.5-7.5"
-                  ></path>
-                </svg>
-
-                <svg
-                  aria-label="Next"
-                  class="fill-current size-4"
-                  slot="next"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="currentColor"
-                    d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                  ></path>
-                </svg>
-
-                <calendar-month></calendar-month>
-
-              </calendar-date>
-            </fieldset>
-
-
-            <fieldset class="fieldset">
-
-              <input
-                type="time"
-                id="edit-time"
-                class="input"
-              />
-
-              <legend class="fieldset-legend">
-                Uhrzeit *
-              </legend>
-
-            </fieldset>
-
-
-            <fieldset class="fieldset">
-
-              <legend class="fieldset-legend">
-                Ort *
-              </legend>
-
-              <input
-                type="text"
-                id="edit-location"
-                class="input"
-                placeholder="z. B. Hamburg"
-              />
-
-            </fieldset>
-
-
-            <fieldset class="fieldset">
-
-              <legend class="fieldset-legend">
-                Kathegorie *
-              </legend>
-
-              <input
-                type="text"
-                id="edit-category"
-                class="input"
-                placeholder="z. B. Hamburg"
-              />
-
-            </fieldset>
-
-
-            <fieldset class="fieldset">
-
-              <legend class="fieldset-legend">
-                Teilnehmer *
-              </legend>
-
-              <div class="join">
-
-                <input
-                  class="input join-item"
-                  placeholder="1"
-                />
-
-                <button
-                  class="btn join-item"
-                >
-                  +
-                </button>
-
-                <button
-                  class="btn join-item"
-                >
-                  -
-                </button>
-
-              </div>
-
-            </fieldset>
-
-
-            <div class="mt-6">
-
-              <button
-                type="submit"
-                class="btn btn-primary"
-              >
-                Änderungen speichern
-              </button>
-
-            </div>
-
-          </form>
+        <!-- Submit Button -->
+        <div class="mt-6">
+          <button type="submit" class="btn btn-primary w-full">Änderungen speichern</button>
         </div>
-      </dialog>
-    </section>
+      </form>
+    </div>
+  </dialog>
+</section>
 
     <main
   id="eventsContainer"
