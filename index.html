@@ -151,14 +151,13 @@
             <option value="Meetup">Meetup</option>
             <option value="Schulung">Schulung</option>
             <option value="Networking">Networking</option>
-            <option value="Intern">Intern</option>
+          
           </select>
 
           <!-- Status Filter -->
           <select id="statusFilter" class="select select-bordered">
             <option value="Alle">Status: Alle</option>
             <option value="Offen">Offen</option>
-            <option value="Geplant">Geplant</option>
             <option value="Ausgebucht">Ausgebucht</option>
             <option value="Abgeschlossen">Abgeschlossen</option>
           </select>
@@ -190,7 +189,7 @@
           </form>
 
           <h3 class="text-lg font-bold">
-            Neues Element
+            Neues Event 
           </h3>
 
           <form id="new-task-form">
@@ -238,13 +237,14 @@
               <label
                 class="label"
                 for="date"
-                id="date"
+                
               >
                 Datum *
               </label>
 
               <input
                 type="date"
+                id="date"
                 class="input"
               />
 
@@ -349,18 +349,6 @@
                   class="input join-item"
                   placeholder="1"
                 />
-
-                <button
-                  class="btn join-item"
-                >
-                  +
-                </button>
-
-                <button
-                  class="btn join-item"
-                >
-                  -
-                </button>
 
               </div>
 

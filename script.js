@@ -13,65 +13,65 @@ let events = JSON.parse(localStorage.getItem("eventhub_events")) || [
   },
   {
     id: 2,
-    title: "React Networking Meetup",
-    description: "Austausch über moderne Frontend-Entwicklung und Frameworks.",
-    date: "2026-11-01",
+    title: "Web Development Meetup",
+    description: "Austausch und Networking für Webentwickler.",
+    date: "2026-11-25",
     time: "18:30",
-    location: "Frankfurt",
+    location: "Dortmund",
     category: "Meetup",
     status: "Offen",
     currentParticipants: 10,
-    maxParticipants: 10,
+    maxParticipants: 30,
   },
 
   {
     id: 3,
-    title: "React Networking Meetup",
-    description: "Austausch über moderne Frontend-Entwicklung und Frameworks.",
-    date: "2026-11-01",
-    time: "18:30",
-    location: "Frankfurt",
-    category: "Meetup",
+    title: "IT-Sicherheit Schulung",
+    description: "Schulung zu IT-Sicherheitsthemen.",
+    date: "2026-11-21",
+    time: "09:30",
+    location: "Bonn",
+    category: "Schulung",
     status: "Offen",
     currentParticipants: 10,
-    maxParticipants: 10,
+    maxParticipants: 25,
   },
 
   {
     id: 4,
-    title: "React Networking Meetup",
-    description: "Austausch über moderne Frontend-Entwicklung und Frameworks.",
+    title: "Business Networking Event",
+    description: "Kontakte knüpfen und Geschäftsmöglichkeiten .",
     date: "2026-11-01",
-    time: "18:30",
-    location: "Frankfurt",
-    category: "Meetup",
+    time: "16:30",
+    location: "Köln",
+    category: "Networking",
     status: "Offen",
     currentParticipants: 10,
-    maxParticipants: 10,
+    maxParticipants: 50,
   },
   {
     id: 5,
     title: "React Networking Meetup",
     description: "Austausch über moderne Frontend-Entwicklung und Frameworks.",
-    date: "2026-11-01",
+    date: "2026-12-01",
     time: "18:30",
     location: "Frankfurt",
     category: "Meetup",
     status: "Offen",
     currentParticipants: 10,
-    maxParticipants: 10,
+    maxParticipants: 50,
   },
   {
     id: 6,
-    title: "React Networking Meetup",
+    title: "Python Coding Workshop",
     description: "Austausch über moderne Frontend-Entwicklung und Frameworks.",
-    date: "2026-11-01",
-    time: "18:30",
+    date: "2026-12-04",
+    time: "15:30",
     location: "Frankfurt",
-    category: "Meetup",
+    category: "Workshop",
     status: "Offen",
     currentParticipants: 10,
-    maxParticipants: 10,
+    maxParticipants: 25,
   },
 ];
 
@@ -129,6 +129,19 @@ function generate_event_card(eventItem) {
 
   const category_badge = document.createElement("span");
   category_badge.classList.add("badge");
+  if (category === "Workshop") {
+    category_badge.classList.add("badge-primary");
+  } else if (category === "Meetup") {
+    category_badge.classList.add("badge-secondary");
+  } else if (category === "Schulung") {
+    category_badge.classList.add("badge-accent");
+  }
+  if (category === "Networking") {
+    category_badge.classList.add("badge-info");
+  }
+  if (category === "Intern") {
+    category_badge.classList.add("badge-neutral");
+  }
   category_badge.innerText = category;
   header.appendChild(category_badge);
 
@@ -164,7 +177,14 @@ function generate_event_card(eventItem) {
   participant_container.appendChild(participant_header);
 
   const status_badge = document.createElement("span");
-  status_badge.classList.add("badge", "badge-success", "badge-sm");
+  status_badge.classList.add("badge", "badge-sm");
+
+  if (status === "Offen") {
+    status_badge.classList.add("badge-success");
+  } else if (status === "Ausgebucht") {
+    status_badge.classList.add("badge-error");
+  }
+
   status_badge.innerText = status;
   participant_header.appendChild(status_badge);
 
