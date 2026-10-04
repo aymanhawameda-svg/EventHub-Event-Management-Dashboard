@@ -1,3 +1,5 @@
+// localStorage.removeItem("eventhub_events");
+
 let events = JSON.parse(localStorage.getItem("eventhub_events")) || [
   {
     id: 1,
@@ -314,10 +316,8 @@ function saveEventsToLocalStorage() {
   localStorage.setItem("eventhub_events", JSON.stringify(events));
 }
 
-// //Ayman
 // Filtert und sortiert die Events nach Suche, Kategorie und Status.
 function filterAndSortEvents() {
-  // TODO: Array filtern/sortieren und renderEvents() aufrufen.
   const searchTerm = searchInput.value.toLowerCase().trim();
   const selectedCategory = categoryFilter.value;
   const selectedStatus = statusFilter.value;
@@ -356,21 +356,16 @@ function filterAndSortEvents() {
   renderEvents(filteredEvents);
 }
 
-// //Kawa
 // Aktiviert die Event-Listener für Suchfeld und Filter-Dropdowns.
 function setupSearchAndFilterListeners() {
-  // TODO: Listener für `input` und `change` hinzufügen.
   searchInput.addEventListener("input", filterAndSortEvents);
   categoryFilter.addEventListener("change", filterAndSortEvents);
   statusFilter.addEventListener("change", filterAndSortEvents);
   sortFilter.addEventListener("change", filterAndSortEvents);
 }
 
-// //Ayman
 // Erstellt ein neues Event aus den Formular-Eingaben im Modal.
 function handleCreateEvent(e) {
-  // TODO: Formulardaten auslesen, neues Event erstellen & speichern.
-
   e.preventDefault();
 
   const form = e.target;
